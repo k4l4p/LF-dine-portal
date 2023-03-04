@@ -2,7 +2,7 @@ import React from "react";
 
 const MintSuccess = () => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center py-32">
       {/* card */}
       <div className="flex flex-col items-center justify-center gap-[60px] rounded-2xl border border-[#f2f2f2]/50 bg-white p-[50px] max-w-lg">
         <div id="heading" className="flex flex-col items-center gap-[28.5px]">
