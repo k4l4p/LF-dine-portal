@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
 const MintSuccess = () => {
   return (
     <div className="flex items-center justify-center py-32">
       {/* card */}
-      <div className="flex flex-col items-center justify-center gap-[60px] rounded-2xl border border-[#f2f2f2]/50 bg-white p-[50px] max-w-lg">
+      <div className="flex max-w-lg flex-col items-center justify-center gap-[60px] rounded-2xl border border-[#f2f2f2]/50 bg-white p-[50px]">
         <div id="heading" className="flex flex-col items-center gap-[28.5px]">
           <img alt="suceess" src="icons/success.svg" height={60} width={60} />
           <h2 className="text-center font-rale text-[34px] font-black uppercase leading-10">
@@ -40,7 +40,7 @@ const MintSuccess = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MintSuccess;
+export default MintSuccess

@@ -1,6 +1,6 @@
-import { Switch } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
-import DropDown from "./DropDown/DropDown";
+import { Switch } from '@headlessui/react'
+import React, { useEffect, useState } from 'react'
+import DropDown from './DropDown/DropDown'
 
 interface ICreateNFT {
   proceed: () => void
@@ -9,40 +9,40 @@ interface ICreateNFT {
 const unitList = [
   {
     id: 0,
-    name: "XTZ",
+    name: 'XTZ',
   },
   {
     id: 1,
-    name: "USDT",
+    name: 'USDT',
   },
-];
+]
 
 const expirationList = [
   {
     id: 0,
-    name: "No Expiration",
+    name: 'No Expiration',
   },
   {
     id: 1,
-    name: "1 day",
+    name: '1 day',
   },
   {
     id: 2,
-    name: "7 days",
+    name: '7 days',
   },
   {
     id: 3,
-    name: "1 month",
+    name: '1 month',
   },
   {
     id: 4,
-    name: "3 months",
+    name: '3 months',
   },
   {
     id: 5,
-    name: "Custom",
+    name: 'Custom',
   },
-];
+]
 
 const ImageUpload = () => {
   return (
@@ -56,23 +56,23 @@ const ImageUpload = () => {
         </button>
       </div>
     </section>
-  );
-};
+  )
+}
 
 const MetaDataForm = () => {
-  const [unit, setUnit] = useState(unitList[0]);
+  const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
   return (
     <div className="flex w-[457px] flex-col gap-6">
       <input
         name="name"
-        type={"text"}
+        type={'text'}
         placeholder="Name"
         className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
       />
       <input
         name="name"
-        type={"text"}
+        type={'text'}
         placeholder="Description (Optional)"
         className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
       />
@@ -109,42 +109,46 @@ const MetaDataForm = () => {
           className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
         />
         <div className="absolute inset-y-0 right-2 top-0">
-          <DropDown item={listingDate} setItem={setListingDate} list={expirationList} />
+          <DropDown
+            item={listingDate}
+            setItem={setListingDate}
+            list={expirationList}
+          />
         </div>
       </div>
       <div className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px]">
         test
       </div>
     </div>
-  );
-};
+  )
+}
 
 const UtilityForm = () => {
-  const [enabled, setEnabled] = useState(false);
-  const [utilType, setUtilType] = useState<"standard" | "custom">("standard");
+  const [enabled, setEnabled] = useState(false)
+  const [utilType, setUtilType] = useState<'standard' | 'custom'>('standard')
   return (
     <div className="flex flex-col gap-[34px]">
       <div className="flex flex-col items-start gap-5">
         <h2 className="text-xl font-bold tracking-[0.04em]">Utility of NFT</h2>
         <div className="flex rounded-[30px] bg-[#EEEEEE] py-1 px-[6px]">
           <button
-            onClick={() => setUtilType("standard")}
+            onClick={() => setUtilType('standard')}
             className={
-              "rounded-[30px] py-[10px] px-5 text-[14px] font-bold tracking-[0.04em] " +
-              (utilType === "standard"
-                ? "bg-black text-white"
-                : "bg-transparent text-[#8A8787]")
+              'rounded-[30px] py-[10px] px-5 text-[14px] font-bold tracking-[0.04em] ' +
+              (utilType === 'standard'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-[#8A8787]')
             }
           >
             Standard
           </button>
           <button
-            onClick={() => setUtilType("custom")}
+            onClick={() => setUtilType('custom')}
             className={
-              "rounded-[30px] py-[10px] px-5 text-[14px] font-bold tracking-[0.04em] " +
-              (utilType === "custom"
-                ? "bg-black text-white"
-                : "bg-transparent text-[#8A8787]")
+              'rounded-[30px] py-[10px] px-5 text-[14px] font-bold tracking-[0.04em] ' +
+              (utilType === 'custom'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-[#8A8787]')
             }
           >
             Custom
@@ -152,20 +156,20 @@ const UtilityForm = () => {
         </div>
       </div>
       {/* optional section */}
-      {utilType === "standard" ? (
+      {utilType === 'standard' ? (
         <div className="flex flex-col gap-6">
           <div className="flex items-center">
             <Switch
               checked={enabled}
               onChange={setEnabled}
               className={`${
-                enabled ? "bg-[#3D00B7]" : "bg-[#E1E1E1]"
+                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
               } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
                 aria-hidden="true"
-                className={`${enabled ? "translate-x-5" : "translate-x-0"}
+                className={`${enabled ? 'translate-x-5' : 'translate-x-0'}
 pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
@@ -182,13 +186,13 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
               checked={enabled}
               onChange={setEnabled}
               className={`${
-                enabled ? "bg-[#3D00B7]" : "bg-[#E1E1E1]"
+                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
               } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
                 aria-hidden="true"
-                className={`${enabled ? "translate-x-5" : "translate-x-0"}
+                className={`${enabled ? 'translate-x-5' : 'translate-x-0'}
 pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
@@ -206,9 +210,9 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
         ></textarea>
       )}
     </div>
-  );
-};
-const CreateNFT = ({proceed}: ICreateNFT) => {
+  )
+}
+const CreateNFT = ({ proceed }: ICreateNFT) => {
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
       <h2 className="font-rale text-[34px] font-black uppercase leading-[40px]">
@@ -222,7 +226,10 @@ const CreateNFT = ({proceed}: ICreateNFT) => {
             <MetaDataForm />
             <UtilityForm />
             <div>
-              <button onClick={proceed} className="rounded-[60px] bg-[#3D00B7] py-[18px] px-10 text-sm font-bold leading-[18px] text-white">
+              <button
+                onClick={proceed}
+                className="rounded-[60px] bg-[#3D00B7] py-[18px] px-10 text-sm font-bold leading-[18px] text-white"
+              >
                 Create item
               </button>
             </div>
@@ -230,7 +237,7 @@ const CreateNFT = ({proceed}: ICreateNFT) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateNFT;
+export default CreateNFT

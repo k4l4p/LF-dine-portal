@@ -1,24 +1,24 @@
-import { Dialog, Transition } from "@headlessui/react";
-import React, { createContext, Fragment, useContext, useState } from "react";
+import { Dialog, Transition } from '@headlessui/react'
+import React, { createContext, Fragment, useContext, useState } from 'react'
 
 interface IConnectCtx {
-  isOpen: boolean;
-  toggleIsOpen: () => void;
+  isOpen: boolean
+  toggleIsOpen: () => void
   isConnected: boolean
   connect: () => Promise<void>
 }
 
-export const ConnectCtx = createContext<IConnectCtx>({} as IConnectCtx);
+export const ConnectCtx = createContext<IConnectCtx>({} as IConnectCtx)
 
 //connect demo
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export const ConnectRoot = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const toggleIsOpen = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
   const connect = async () => {
     setIsOpen(true)
     await sleep(3000)
@@ -29,8 +29,8 @@ export const ConnectRoot = ({ children }: { children: React.ReactNode }) => {
     <ConnectCtx.Provider value={{ isOpen, toggleIsOpen, isConnected, connect }}>
       {children}
     </ConnectCtx.Provider>
-  );
-};
+  )
+}
 
 export const StatusButton = () => {
   return (
@@ -40,14 +40,14 @@ export const StatusButton = () => {
         Connected
       </h4>
       <h4 className="text-xs font-bold leading-[19px] text-black ">
-        0x1499CB...{" "}
+        0x1499CB...{' '}
       </h4>
     </button>
-  );
-};
+  )
+}
 
 export const ConnectModal = () => {
-  const connectCtx = useContext(ConnectCtx);
+  const connectCtx = useContext(ConnectCtx)
   return (
     <Transition show={connectCtx.isOpen} as={Fragment}>
       <Dialog
@@ -79,8 +79,13 @@ export const ConnectModal = () => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white py-12 px-9 text-center align-middle font-dm-sans shadow-xl transition-all">
-                <div className="flex w-full flex-col gap-9 items-center">
-                  <img alt="loading" src="loading.svg" height={100} width={100}/>
+                <div className="flex w-full flex-col items-center gap-9">
+                  <img
+                    alt="loading"
+                    src="loading.svg"
+                    height={100}
+                    width={100}
+                  />
                   <h4 className="text-2xl font-bold leading-5">
                     Connecting to your wallet
                   </h4>
@@ -91,11 +96,11 @@ export const ConnectModal = () => {
         </div>
       </Dialog>
     </Transition>
-  );
-};
+  )
+}
 
 export const ConnectPage = () => {
-  const connectCtx = useContext(ConnectCtx);
+  const connectCtx = useContext(ConnectCtx)
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-10 pt-[135px] pb-[215px]">
@@ -111,5 +116,5 @@ export const ConnectPage = () => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}

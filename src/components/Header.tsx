@@ -1,5 +1,5 @@
-import React from "react";
-import { StatusButton } from "./WalletConnection";
+import React from 'react'
+import { StatusButton } from './WalletConnection'
 
 const Header = () => {
   return (
@@ -9,7 +9,7 @@ const Header = () => {
         <StatusButton />
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

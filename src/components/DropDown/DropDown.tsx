@@ -1,25 +1,22 @@
-import { Listbox, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
-import {
-  ChevronDownIcon,
-  ChevronUpDownIcon,
-} from "@heroicons/react/24/outline";
+import { Listbox, Transition } from '@headlessui/react'
+import React, { Fragment, useState } from 'react'
+import { ChevronDownIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
 interface IDropDown {
   list: Array<{
-    id: number;
-    name: string;
-  }>;
+    id: number
+    name: string
+  }>
   setItem: React.Dispatch<
     React.SetStateAction<{
-      id: number;
-      name: string;
+      id: number
+      name: string
     }>
-  >;
+  >
   item: {
-    id: number;
-    name: string;
-  };
+    id: number
+    name: string
+  }
 }
 
 const DropDown = ({ list, setItem, item }: IDropDown) => {
@@ -47,7 +44,7 @@ const DropDown = ({ list, setItem, item }: IDropDown) => {
                 key={idx}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-4 pr-4 ${
-                    active ? "bg-[#3D00B7]/10" : "text-gray-900"
+                    active ? 'bg-[#3D00B7]/10' : 'text-gray-900'
                   }`
                 }
                 value={item}
@@ -56,7 +53,7 @@ const DropDown = ({ list, setItem, item }: IDropDown) => {
                   <>
                     <span
                       className={`block truncate font-bold ${
-                        selected ? "text-[#3D00B7]" : "text-black"
+                        selected ? 'text-[#3D00B7]' : 'text-black'
                       }`}
                     >
                       {item.name}
@@ -69,7 +66,7 @@ const DropDown = ({ list, setItem, item }: IDropDown) => {
         </Transition>
       </div>
     </Listbox>
-  );
-};
+  )
+}
 
-export default DropDown;
+export default DropDown
