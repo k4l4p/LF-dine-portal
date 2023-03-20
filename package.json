@@ -9,8 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@airgap/beacon-sdk": "^3.3.4",
     "@headlessui/react": "^1.7.12",
     "@heroicons/react": "^2.0.16",
+    "@taquito/beacon-wallet": "^16.0.0",
+    "@taquito/taquito": "^16.0.0",
+    "@temple-wallet/dapp": "^7.0.0",
+    "constate": "^3.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
