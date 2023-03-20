@@ -1,10 +1,15 @@
+import {
+  useConnect,
+  useDisconnect,
+  useIsConnected,
+  useWalletAddress,
+} from '@/contexts/Beacon'
 import { Dialog, Transition } from '@headlessui/react'
 import React, { createContext, Fragment, useContext, useState } from 'react'
 
 interface IConnectCtx {
   isOpen: boolean
   toggleIsOpen: () => void
-  isConnected: boolean
   connect: () => Promise<void>
 }
 
@@ -15,34 +20,47 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export const ConnectRoot = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
+  const connectWallet = useConnect()
   const toggleIsOpen = () => {
     setIsOpen(!isOpen)
   }
   const connect = async () => {
-    setIsOpen(true)
-    await sleep(3000)
-    setIsConnected(true)
-    setIsOpen(false)
+    try {
+      setIsOpen(true)
+      await connectWallet()
+      setIsOpen(false)
+    } catch (err) {
+      console.log(err)
+    }
   }
   return (
-    <ConnectCtx.Provider value={{ isOpen, toggleIsOpen, isConnected, connect }}>
+    <ConnectCtx.Provider value={{ isOpen, toggleIsOpen, connect }}>
       {children}
     </ConnectCtx.Provider>
   )
 }
 
 export const StatusButton = () => {
+  const isConnected = useIsConnected()
+  const disconnect = useDisconnect()
+  const name = useWalletAddress()
   return (
-    <button className="flex items-center justify-center gap-[10px] rounded-[60px] border border-gray-300 py-3 px-5">
-      <div className="h-3 w-3 rounded-full bg-[#00B98C]" />
-      <h4 className="text-xs font-bold leading-[19px] text-[#00B98C] ">
-        Connected
-      </h4>
-      <h4 className="text-xs font-bold leading-[19px] text-black ">
-        0x1499CB...{' '}
-      </h4>
-    </button>
+    isConnected() && (
+      <button
+        onClick={() => {
+          disconnect().catch(console.log)
+        }}
+        className="flex items-center justify-center gap-[10px] rounded-[60px] border border-gray-300 py-3 px-5 w-full max-w-[210px] hover:max-w-[450px] transition-[max-width]"
+      >
+        <div className="h-3 w-3 rounded-full bg-[#00B98C] shrink-0" />
+        <h4 className="text-xs font-bold leading-[19px] text-[#00B98C] ">
+          Connected
+        </h4>
+        <h4 className="text-xs font-bold leading-[19px] text-black truncate">
+          {name}
+        </h4>
+      </button>
+    )
   )
 }
 
