@@ -1,39 +1,19 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Header from '@/components/Header'
 import {
-  ConnectCtx,
-  ConnectModal,
   ConnectPage,
 } from '@/components/WalletConnection'
-import CreateNFT from '@/components/CreateNFT'
-import MintSuccess from '@/components/MintSuccess'
-import { useContext, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 import { useIsConnected } from '@/contexts/Beacon'
-
-const inter = Inter({ subsets: ['latin'] })
+import MainLayout from '@/layout/MainLayout'
+import { useRouter } from 'next/router'
 
 export default function Home() {
-  const connectCtx = useContext(ConnectCtx)
   const isConnected = useIsConnected()
-  const [stage, setStage] = useState<'connect' | 'create' | 'success'>(
-    'connect'
-  )
+  const router = useRouter()
 
-  const setMintSuccess = () => {
-    setStage('success')
+  if (isConnected()) {
+    router.push('/create')
   }
-  useEffect(() => {
-    if (isConnected()) {
-      setStage('create')
-    } else {
-      setStage('connect')
-
-    }
-    console.log(isConnected())
-  }, [isConnected])
   return (
     <>
       <Head>
@@ -42,13 +22,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="font-dm-sans">
-        <Header />
-        {stage === 'connect' && <ConnectPage />}
-        {stage === 'create' && <CreateNFT proceed={setMintSuccess} />}
-        {stage === 'success' && <MintSuccess />}
-      </main>
-      <ConnectModal />
+      <ConnectPage />
     </>
   )
+}
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <MainLayout>{page}</MainLayout>
 }

@@ -1,6 +1,7 @@
+import DropDown from '@/components/DropDown/DropDown'
+import MainLayout from '@/layout/MainLayout'
 import { Switch } from '@headlessui/react'
-import React, { useEffect, useState } from 'react'
-import DropDown from './DropDown/DropDown'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 interface ICreateNFT {
   proceed: () => void
@@ -239,5 +240,9 @@ const CreateNFT = ({ proceed }: ICreateNFT) => {
     </div>
   )
 }
+
+CreateNFT.getLayout = function getLayout(page: ReactElement) {
+    return <MainLayout>{page}</MainLayout>
+  }
 
 export default CreateNFT
