@@ -12,7 +12,8 @@ export const StatusButton = () => {
   const disconnect = useDisconnect()
   const name = useWalletAddress()
   return (
-    isConnected() && (
+    isConnected() 
+    ?(
       <button
         onClick={() => {
           disconnect().catch(console.log)
@@ -28,6 +29,7 @@ export const StatusButton = () => {
         </h4>
       </button>
     )
+    : <></>
   )
 }
 
