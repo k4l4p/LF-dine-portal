@@ -46,13 +46,46 @@ const expirationList = [
 ]
 
 const ImageUpload = () => {
+  const upload = (file: File | undefined) => {
+    if (!file) return
+    console.log(file)
+
+  }
+
   return (
-    <section className="flex flex-col gap-4">
+    <section
+      onDragOver={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.add('opacity-20')
+      }}
+      onDragExit={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.remove('opacity-20')
+      }}
+      onDrop={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.remove('opacity-20')
+        if (event.dataTransfer.files) {
+          upload(event.dataTransfer.files[0])
+        }
+        upload((event.target as HTMLInputElement)?.files?.[0])
+      }}
+      className="flex flex-col gap-4 transition-opacity">
       <div className="flex h-[400px] w-[400px] flex-col items-center justify-center gap-5 rounded-2xl bg-[#EEEEF0]">
         <h6 className="text-sm font-bold tracking-[0.04em] text-black/50">
           Drag and drop your file here
         </h6>
-        <button className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
+        <button
+          onClick={() => {
+            let input = document.createElement('input')
+            input.type = 'file'
+            input.onchange = e => { 
+              var file = (e.target as HTMLInputElement)?.files?.[0]
+              upload(file)
+           }
+           input.click()
+          }}
+          className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
           Choose file
         </button>
       </div>
@@ -163,9 +196,8 @@ const UtilityForm = () => {
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${
-                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -186,9 +218,8 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${
-                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -242,7 +273,7 @@ const CreateNFT = ({ proceed }: ICreateNFT) => {
 }
 
 CreateNFT.getLayout = function getLayout(page: ReactElement) {
-    return <MainLayout>{page}</MainLayout>
-  }
+  return <MainLayout>{page}</MainLayout>
+}
 
 export default CreateNFT
