@@ -18,13 +18,13 @@ export const StatusButton = () => {
         onClick={() => {
           disconnect().catch(console.log)
         }}
-        className="flex items-center justify-center gap-[10px] rounded-[60px] border border-gray-300 py-3 px-5 w-full max-w-[210px] hover:max-w-[450px] transition-[max-width]"
+        className="relative flex items-center justify-center gap-[10px] rounded-[60px] border border-gray-300 py-3 px-5 w-full max-w-[210px] overflow-hidden after:content-['Logout'] after:text-white after:absolute after:bg-[#F22E29] after:inset-0 after:flex after:items-center after:justify-center text-xs font-bold leading-[19px] after:translate-y-full hover:after:translate-y-0 after:transition-transform"
       >
         <div className="h-3 w-3 rounded-full bg-[#00B98C] shrink-0" />
-        <h4 className="text-xs font-bold leading-[19px] text-[#00B98C] ">
+        <h4 className=" text-[#00B98C] ">
           Connected
         </h4>
-        <h4 className="text-xs font-bold leading-[19px] text-black truncate">
+        <h4 className=" text-black truncate">
           {name}
         </h4>
       </button>
