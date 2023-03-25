@@ -1,3 +1,4 @@
+import CalendarButton from '@/components/Calendar/CalendarButton'
 import DropDown from '@/components/DropDown/DropDown'
 import MainLayout from '@/layout/MainLayout'
 import { Switch } from '@headlessui/react'
@@ -5,6 +6,13 @@ import React, { ReactElement, useEffect, useState } from 'react'
 
 interface ICreateNFT {
   proceed: () => void
+}
+
+interface MetaDataFormProp {
+  date: Date
+  setDate: React.Dispatch<React.SetStateAction<Date>>
+
+
 }
 
 const unitList = [
@@ -93,7 +101,7 @@ const ImageUpload = () => {
   )
 }
 
-const MetaDataForm = () => {
+const MetaDataForm = ({date, setDate} : MetaDataFormProp) => {
   const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
   return (
@@ -150,9 +158,7 @@ const MetaDataForm = () => {
           />
         </div>
       </div>
-      <div className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px]">
-        test
-      </div>
+      <CalendarButton date={date} setDate={setDate} />
     </div>
   )
 }
@@ -245,6 +251,15 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
   )
 }
 const CreateNFT = ({ proceed }: ICreateNFT) => {
+  const [date, setDate] = useState(new Date())
+  useEffect(() => {
+    console.log(date)
+  
+    return () => {
+      
+    }
+  }, [date])
+  
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
       <h2 className="font-rale text-[34px] font-black uppercase leading-[40px]">
@@ -255,7 +270,7 @@ const CreateNFT = ({ proceed }: ICreateNFT) => {
         <div className="flex gap-8">
           <ImageUpload />
           <section className="flex flex-col gap-[50px]">
-            <MetaDataForm />
+            <MetaDataForm date={date} setDate={setDate}/>
             <UtilityForm />
             <div>
               <button
