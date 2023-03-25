@@ -11,7 +11,22 @@ interface ICreateNFT {
 interface MetaDataFormProp {
   date: Date
   setDate: React.Dispatch<React.SetStateAction<Date>>
-
+  unit: {
+    id: number;
+    name: string;
+  }
+  setUnit: React.Dispatch<React.SetStateAction<{
+    id: number;
+    name: string;
+  }>>
+  listingDate: {
+    id: number;
+    name: string;
+  }
+  setListingDate: React.Dispatch<React.SetStateAction<{
+    id: number;
+    name: string;
+  }>>
 
 }
 
@@ -87,11 +102,11 @@ const ImageUpload = () => {
           onClick={() => {
             let input = document.createElement('input')
             input.type = 'file'
-            input.onchange = e => { 
+            input.onchange = e => {
               var file = (e.target as HTMLInputElement)?.files?.[0]
               upload(file)
-           }
-           input.click()
+            }
+            input.click()
           }}
           className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
           Choose file
@@ -101,9 +116,7 @@ const ImageUpload = () => {
   )
 }
 
-const MetaDataForm = ({date, setDate} : MetaDataFormProp) => {
-  const [unit, setUnit] = useState(unitList[0])
-  const [listingDate, setListingDate] = useState(expirationList[0])
+const MetaDataForm = ({ date, setDate, listingDate, setListingDate, setUnit, unit }: MetaDataFormProp) => {
   return (
     <div className="flex w-[457px] flex-col gap-6">
       <input
@@ -145,11 +158,22 @@ const MetaDataForm = ({date, setDate} : MetaDataFormProp) => {
         <h6 className="absolute top-[7.5px] left-[16px] text-[10px] font-bold leading-[13px]">
           Date of listing expiration
         </h6>
-        <input
-          name="dateOfExpiration"
-          placeholder="1"
-          className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
-        />
+
+        {
+          listingDate.id !== 5
+            ? <div
+              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
+            >
+              {listingDate.name}
+            </div>
+            : <input
+              name="dateOfExpiration"
+              placeholder="1"
+              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
+            />
+
+        }
+
         <div className="absolute inset-y-0 right-2 top-0">
           <DropDown
             item={listingDate}
@@ -252,14 +276,17 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
 }
 const CreateNFT = ({ proceed }: ICreateNFT) => {
   const [date, setDate] = useState(new Date())
-  useEffect(() => {
-    console.log(date)
-  
-    return () => {
-      
-    }
-  }, [date])
-  
+  const [unit, setUnit] = useState(unitList[0])
+  const [listingDate, setListingDate] = useState(expirationList[0])
+
+  const metaDataProp: MetaDataFormProp = {
+    date,
+    listingDate,
+    setDate,
+    setListingDate,
+    setUnit,
+    unit
+  }
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
       <h2 className="font-rale text-[34px] font-black uppercase leading-[40px]">
@@ -270,7 +297,7 @@ const CreateNFT = ({ proceed }: ICreateNFT) => {
         <div className="flex gap-8">
           <ImageUpload />
           <section className="flex flex-col gap-[50px]">
-            <MetaDataForm date={date} setDate={setDate}/>
+            <MetaDataForm {...metaDataProp} />
             <UtilityForm />
             <div>
               <button
