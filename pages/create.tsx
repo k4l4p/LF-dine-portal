@@ -1,3 +1,4 @@
+import CalendarButton from '@/components/Calendar/CalendarButton'
 import DropDown from '@/components/DropDown/DropDown'
 import { useWalletAddress } from '@/contexts/Beacon'
 import { useContract } from '@/contexts/Contract'
@@ -6,6 +7,28 @@ import { Switch } from '@headlessui/react'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { MichelsonMap } from '@taquito/taquito'
 import { char2Bytes } from '@taquito/utils'
+
+interface MetaDataFormProp {
+  date: Date
+  setDate: React.Dispatch<React.SetStateAction<Date>>
+  unit: {
+    id: number;
+    name: string;
+  }
+  setUnit: React.Dispatch<React.SetStateAction<{
+    id: number;
+    name: string;
+  }>>
+  listingDate: {
+    id: number;
+    name: string;
+  }
+  setListingDate: React.Dispatch<React.SetStateAction<{
+    id: number;
+    name: string;
+  }>>
+
+}
 
 const unitList = [
   {
@@ -46,13 +69,46 @@ const expirationList = [
 ]
 
 const ImageUpload = () => {
+  const upload = (file: File | undefined) => {
+    if (!file) return
+    console.log(file)
+
+  }
+
   return (
-    <section className="flex flex-col gap-4">
+    <section
+      onDragOver={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.add('opacity-20')
+      }}
+      onDragExit={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.remove('opacity-20')
+      }}
+      onDrop={(event) => {
+        event.preventDefault()
+        event.currentTarget.classList.remove('opacity-20')
+        if (event.dataTransfer.files) {
+          upload(event.dataTransfer.files[0])
+        }
+        upload((event.target as HTMLInputElement)?.files?.[0])
+      }}
+      className="flex flex-col gap-4 transition-opacity">
       <div className="flex h-[400px] w-[400px] flex-col items-center justify-center gap-5 rounded-2xl bg-[#EEEEF0]">
         <h6 className="text-sm font-bold tracking-[0.04em] text-black/50">
           Drag and drop your file here
         </h6>
-        <button className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
+        <button
+          onClick={() => {
+            let input = document.createElement('input')
+            input.type = 'file'
+            input.onchange = e => {
+              var file = (e.target as HTMLInputElement)?.files?.[0]
+              upload(file)
+            }
+            input.click()
+          }}
+          className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
           Choose file
         </button>
       </div>
@@ -60,9 +116,7 @@ const ImageUpload = () => {
   )
 }
 
-const MetaDataForm = () => {
-  const [unit, setUnit] = useState(unitList[0])
-  const [listingDate, setListingDate] = useState(expirationList[0])
+const MetaDataForm = ({ date, setDate, listingDate, setListingDate, setUnit, unit }: MetaDataFormProp) => {
   return (
     <div className="flex w-[457px] flex-col gap-6">
       <input
@@ -104,11 +158,22 @@ const MetaDataForm = () => {
         <h6 className="absolute top-[7.5px] left-[16px] text-[10px] font-bold leading-[13px]">
           Date of listing expiration
         </h6>
-        <input
-          name="dateOfExpiration"
-          placeholder="1"
-          className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
-        />
+
+        {
+          listingDate.id !== 5
+            ? <div
+              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
+            >
+              {listingDate.name}
+            </div>
+            : <input
+              name="dateOfExpiration"
+              placeholder="1"
+              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
+            />
+
+        }
+
         <div className="absolute inset-y-0 right-2 top-0">
           <DropDown
             item={listingDate}
@@ -117,9 +182,7 @@ const MetaDataForm = () => {
           />
         </div>
       </div>
-      <div className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px]">
-        test
-      </div>
+      <CalendarButton date={date} setDate={setDate} />
     </div>
   )
 }
@@ -163,9 +226,8 @@ const UtilityForm = () => {
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${
-                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -186,9 +248,8 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${
-                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -235,6 +296,18 @@ const CreateNFT = () => {
     const hash = await ret.confirmation(3)
     console.log(hash)
   }
+  const [date, setDate] = useState(new Date())
+  const [unit, setUnit] = useState(unitList[0])
+  const [listingDate, setListingDate] = useState(expirationList[0])
+
+  const metaDataProp: MetaDataFormProp = {
+    date,
+    listingDate,
+    setDate,
+    setListingDate,
+    setUnit,
+    unit
+  }
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
       <h2 className="font-rale text-[34px] font-black uppercase leading-[40px]">
@@ -245,7 +318,7 @@ const CreateNFT = () => {
         <div className="flex gap-8">
           <ImageUpload />
           <section className="flex flex-col gap-[50px]">
-            <MetaDataForm />
+            <MetaDataForm {...metaDataProp} />
             <UtilityForm />
             <div>
               <button
@@ -263,7 +336,7 @@ const CreateNFT = () => {
 }
 
 CreateNFT.getLayout = function getLayout(page: ReactElement) {
-    return <MainLayout>{page}</MainLayout>
-  }
+  return <MainLayout>{page}</MainLayout>
+}
 
 export default CreateNFT
