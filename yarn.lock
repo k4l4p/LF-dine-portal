@@ -259,6 +259,11 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.2.4.tgz#5abda92fe12b9829bf7951c4a221282c56041144"
   integrity sha512-0MffFmyv7tBLlji01qc0IaPP/LVExzvj7/R5x1Jph1bTAIj4Vu81yFQWHHQAP6r4ff9Ukj1mBK6MDNVXm7Tcvw==
 
+"@noble/hashes@^1.2.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.0.tgz#085fd70f6d7d9d109671090ccae1d3bec62554a1"
+  integrity sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -337,6 +342,15 @@
   resolved "https://registry.yarnpkg.com/@stablelib/hash/-/hash-1.0.1.tgz#3c944403ff2239fad8ebb9015e33e98444058bc5"
   integrity sha512-eTPJc/stDkdtOcrNMZ6mcMK1e6yBbqRBaNW55XA1jU8w/7QdnCF0CmMmOD1m7VSkBR44PWrMHU2l6r8YEQHMgg==
 
+"@stablelib/hmac@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@stablelib/hmac/-/hmac-1.0.1.tgz#3d4c1b8cf194cb05d28155f0eed8a299620a07ec"
+  integrity sha512-V2APD9NSnhVpV/QMYgCVMIYKiYG6LSqw1S65wxVoirhU/51ACio6D4yDVSwMzuTJXWZoVHbDdINioBwKy5kVmA==
+  dependencies:
+    "@stablelib/constant-time" "^1.0.1"
+    "@stablelib/hash" "^1.0.1"
+    "@stablelib/wipe" "^1.0.1"
+
 "@stablelib/int@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@stablelib/int/-/int-1.0.1.tgz#75928cc25d59d73d75ae361f02128588c15fd008"
@@ -359,6 +373,16 @@
     "@stablelib/wipe" "^1.0.1"
     "@stablelib/x25519" "^1.0.3"
     "@stablelib/xsalsa20" "^1.0.2"
+
+"@stablelib/pbkdf2@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@stablelib/pbkdf2/-/pbkdf2-1.0.1.tgz#ba4d4379385db3ca46fb48e504ff7933c451be1d"
+  integrity sha512-d5jwK6jW1DkMyzqY8D1Io+fRXcsUVr95lk5LKX9ghaUdAITTc1ZL0bff+R0IrwSixbHluxhnivG7vDw59AZ/Nw==
+  dependencies:
+    "@stablelib/binary" "^1.0.1"
+    "@stablelib/hash" "^1.0.1"
+    "@stablelib/hmac" "^1.0.1"
+    "@stablelib/wipe" "^1.0.1"
 
 "@stablelib/poly1305@^1.0.1":
   version "1.0.1"
@@ -479,6 +503,18 @@
     bignumber.js "^9.1.0"
     fast-json-stable-stringify "^2.1.0"
 
+"@taquito/remote-signer@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@taquito/remote-signer/-/remote-signer-16.0.0.tgz#807735770265c0e32bdcfbab8f50ed3678912993"
+  integrity sha512-ZCqvRRvc0QaZ3WLOcP3/bdLTzpMwdR07DTTgZELawhkbFACX2VKt1+yLcuPRB+KWOhdzVhZ2ucRQr0yDTnK2UA==
+  dependencies:
+    "@stablelib/blake2b" "^1.0.1"
+    "@stablelib/ed25519" "^1.0.3"
+    "@taquito/http-utils" "^16.0.0"
+    "@taquito/taquito" "^16.0.0"
+    "@taquito/utils" "^16.0.0"
+    typedarray-to-buffer "^4.0.0"
+
 "@taquito/rpc@^16.0.0":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@taquito/rpc/-/rpc-16.0.0.tgz#5e8ece21bc56462e85ab4b9408ed184ff7b1af02"
@@ -487,6 +523,25 @@
     "@taquito/http-utils" "^16.0.0"
     "@taquito/utils" "^16.0.0"
     bignumber.js "^9.1.0"
+
+"@taquito/signer@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@taquito/signer/-/signer-16.0.0.tgz#4e874fe28a3ebd99cbab3132c7bee9b292cad053"
+  integrity sha512-a0vncncwP5l4m0YNygmuD0dH87hbOWGSMtgskT/Mrl+SZJhYj2o2OVThj6JMxYWrN2ZaJYER69kQ4Bz1IXr0AA==
+  dependencies:
+    "@stablelib/blake2b" "^1.0.1"
+    "@stablelib/ed25519" "^1.0.3"
+    "@stablelib/hmac" "^1.0.1"
+    "@stablelib/nacl" "^1.0.4"
+    "@stablelib/pbkdf2" "^1.0.1"
+    "@stablelib/sha512" "^1.0.1"
+    "@taquito/taquito" "^16.0.0"
+    "@taquito/utils" "^16.0.0"
+    "@types/bn.js" "^5.1.1"
+    bip39 "^3.0.4"
+    elliptic "^6.5.4"
+    pbkdf2 "^3.1.2"
+    typedarray-to-buffer "^4.0.0"
 
 "@taquito/taquito@^16.0.0":
   version "16.0.0"
@@ -516,6 +571,13 @@
     buffer "^6.0.3"
     elliptic "^6.5.4"
     typedarray-to-buffer "^4.0.0"
+
+"@types/bn.js@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-5.1.1.tgz#b51e1b55920a4ca26e9285ff79936bbdec910682"
+  integrity sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==
+  dependencies:
+    "@types/node" "*"
 
 "@types/bs58check@^2.1.0":
   version "2.1.0"
@@ -866,6 +928,13 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
+bip39@^3.0.4:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/bip39/-/bip39-3.1.0.tgz#c55a418deaf48826a6ceb34ac55b3ee1577e18a3"
+  integrity sha512-c9kiwdk45Do5GL0vJMe7tS95VjCii65mYAH7DfWl3uW8AVzXKQVUm64i3hzVybBDMp9r7j9iNxR85+ul8MdN/A==
+  dependencies:
+    "@noble/hashes" "^1.2.0"
+
 blakejs@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.2.1.tgz#5057e4206eadb4a97f7c0b6e197a505042fc3814"
@@ -976,7 +1045,7 @@ chokidar@^3.5.3:
   optionalDependencies:
     fsevents "~2.3.2"
 
-cipher-base@^1.0.1:
+cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.4.tgz#8760e4ecc272f4c363532f926d874aae2c1397de"
   integrity sha512-Kkht5ye6ZGmwv40uUDZztayT2ThLQGfnj/T71N/XzeZeo3nf8foyW7zGTsPYkEya3m5f3cAypH+qe7YOrM1U2Q==
@@ -1021,7 +1090,7 @@ core-js@^2.4.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-create-hash@^1.1.0:
+create-hash@^1.1.0, create-hash@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
   integrity sha512-z00bCGNHDG8mHAkP7CtT1qVu+bFQUPjYq/4Iv3C3kWjTFV10zIjfSoeqXo9Asws8gwSHDGj/hl2u4OGIjapeCg==
@@ -1031,6 +1100,18 @@ create-hash@^1.1.0:
     md5.js "^1.3.4"
     ripemd160 "^2.0.1"
     sha.js "^2.4.0"
+
+create-hmac@^1.1.4:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/create-hmac/-/create-hmac-1.1.7.tgz#69170c78b3ab957147b2b8b04572e47ead2243ff"
+  integrity sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==
+  dependencies:
+    cipher-base "^1.0.3"
+    create-hash "^1.1.0"
+    inherits "^2.0.1"
+    ripemd160 "^2.0.0"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
 
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
@@ -2373,6 +2454,17 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+pbkdf2@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.1.2.tgz#dd822aa0887580e52f1a039dc3eda108efae3075"
+  integrity sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==
+  dependencies:
+    create-hash "^1.1.2"
+    create-hmac "^1.1.4"
+    ripemd160 "^2.0.1"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -2598,7 +2690,7 @@ rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-ripemd160@^2.0.1:
+ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
   integrity sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
@@ -2653,7 +2745,7 @@ semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-sha.js@^2.4.0:
+sha.js@^2.4.0, sha.js@^2.4.8:
   version "2.4.11"
   resolved "https://registry.yarnpkg.com/sha.js/-/sha.js-2.4.11.tgz#37a5cf0b81ecbc6943de109ba2960d1b26584ae7"
   integrity sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==

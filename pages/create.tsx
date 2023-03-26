@@ -1,12 +1,12 @@
 import CalendarButton from '@/components/Calendar/CalendarButton'
 import DropDown from '@/components/DropDown/DropDown'
+import { useWalletAddress } from '@/contexts/Beacon'
+import { useContract } from '@/contexts/Contract'
 import MainLayout from '@/layout/MainLayout'
 import { Switch } from '@headlessui/react'
 import React, { ReactElement, useEffect, useState } from 'react'
-
-interface ICreateNFT {
-  proceed: () => void
-}
+import { MichelsonMap } from '@taquito/taquito'
+import { char2Bytes } from '@taquito/utils'
 
 interface MetaDataFormProp {
   date: Date
@@ -274,7 +274,28 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
     </div>
   )
 }
-const CreateNFT = ({ proceed }: ICreateNFT) => {
+const CreateNFT = () => {
+  const contract = useContract()
+  const address = useWalletAddress()
+  
+  const mint = async () => {
+    // const metadata = {
+    //   name: 'test',
+    //   amount: 1
+    // }
+    const metaMap = new MichelsonMap({
+      prim: 'map',
+      args: [{prim: 'string'}, {prim: 'bytes'}]
+    })
+
+    metaMap.set('name', char2Bytes('test'))
+    metaMap.set('amount', char2Bytes('1'))
+
+    const ret = await (await contract).methods.mint(address ?? '', metaMap).send()
+    console.log(ret)
+    const hash = await ret.confirmation(3)
+    console.log(hash)
+  }
   const [date, setDate] = useState(new Date())
   const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
@@ -301,7 +322,7 @@ const CreateNFT = ({ proceed }: ICreateNFT) => {
             <UtilityForm />
             <div>
               <button
-                onClick={proceed}
+                onClick={() => {mint().catch(console.log)}}
                 className="rounded-[60px] bg-[#3D00B7] py-[18px] px-10 text-sm font-bold leading-[18px] text-white"
               >
                 Create item

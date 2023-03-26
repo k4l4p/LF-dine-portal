@@ -13,6 +13,8 @@
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@taquito/beacon-wallet": "^16.0.0",
+    "@taquito/remote-signer": "^16.0.0",
+    "@taquito/signer": "^16.0.0",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-calendar": "^3.9.0",
