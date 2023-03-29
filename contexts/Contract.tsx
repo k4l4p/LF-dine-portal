@@ -14,7 +14,7 @@ export const [
     const tezos = useTezosToolkit()
     const address = useContractAddress()
     const [contract] = useState({
-      contract: tezos.contract
+      contract: tezos.wallet
       .at(address)
     });
     return contract;
