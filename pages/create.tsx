@@ -314,7 +314,7 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
   )
 }
 const CreateNFT = () => {
-  const { mint } = useNFT()
+  const { mint, upload } = useNFT()
   const [img, setImg] = useState<File | null>(null)
   const [date, setDate] = useState(new Date())
   const [unit, setUnit] = useState(unitList[0])
