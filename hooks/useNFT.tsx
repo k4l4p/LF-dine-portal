@@ -79,7 +79,7 @@ const useNFT = () => {
           rel="noopener"
           href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
         >
-          Hash
+          Your NFT Collection
         </Link>
       </div>
     )
