@@ -1,11 +1,10 @@
 import CalendarButton from '@/components/Calendar/CalendarButton'
 import DropDown from '@/components/DropDown/DropDown'
-import { ModalCtx } from '@/contexts/Modal'
 import useNFT from '@/hooks/useNFT'
 import MainLayout from '@/layout/MainLayout'
 import { Switch } from '@headlessui/react'
 import Image from 'next/image'
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 interface MetaDataFormProp {
   date: Date
@@ -343,7 +342,6 @@ const CreateNFT = () => {
   const [date, setDate] = useState(new Date())
   const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
-	const modalCtx = useContext(ModalCtx)
 
   const metaDataProp: MetaDataFormProp = {
     date,
