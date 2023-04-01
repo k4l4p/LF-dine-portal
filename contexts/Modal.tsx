@@ -82,7 +82,7 @@ export const ModalPopup = () => {
                       ? '/loading.svg'
                       : modalCtx.status === 'success'
                       ? '/icons/success.svg'
-                      : '/icon/error.svg'
+                      : '/icons/error.svg'
                     }
                     height={100}
                     width={100}
