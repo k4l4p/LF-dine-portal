@@ -29,6 +29,13 @@ interface MetaDataFormProp {
       name: string
     }>
   >
+  name: string
+  setName: React.Dispatch<React.SetStateAction<string>>
+  description: string
+  setDescription: React.Dispatch<React.SetStateAction<string>>
+  creator: string
+  setCreator: React.Dispatch<React.SetStateAction<string>>
+
 }
 
 const unitList = [
@@ -107,8 +114,11 @@ const ImageUpload = ({
     }
     const url = URL.createObjectURL(img)
     return (
-      <div className='relative p-4 flex flex-col items-center w-full gap-10'>
-        <Image className='' src={url} alt='file-preview' width={300} height={300}/>
+      <div className='relative p-4 flex flex-col items-center w-full h-full gap-10'>
+        <div className='w-[300px] h-[300px]'>
+        <Image className='object-contain w-full h-full' src={url} alt='file-preview' width={300} height={300}/>
+
+        </div>
         <div className='flex flex-col w-[300px] opacity-70 text-sm'>
           <h6 className='truncate'>
             File Name: {img.name}
@@ -156,6 +166,12 @@ const MetaDataForm = ({
   setListingDate,
   setUnit,
   unit,
+  creator,
+  description,
+  name,
+  setCreator,
+  setDescription,
+  setName
 }: MetaDataFormProp) => {
   return (
     <div className="flex w-[457px] flex-col gap-6">
@@ -163,12 +179,16 @@ const MetaDataForm = ({
         name="name"
         type={'text'}
         placeholder="Name"
+        value={name}
+        onChange={(e) => {setName(e.target.value)}}
         className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
       />
       <input
         name="name"
         type={'text'}
         placeholder="Description (Optional)"
+        value={description}
+        onChange={(e) => {setDescription(e.target.value)}}
         className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
       />
       <div className="relative w-full">
@@ -316,6 +336,9 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
 const CreateNFT = () => {
   const { mint, upload } = useNFT()
   const [img, setImg] = useState<File | null>(null)
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [creator, setCreator] = useState('')
   const [date, setDate] = useState(new Date())
   const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
@@ -327,6 +350,12 @@ const CreateNFT = () => {
     setListingDate,
     setUnit,
     unit,
+    creator,
+    description,
+    name,
+    setCreator,
+    setDescription,
+    setName
   }
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
@@ -342,8 +371,11 @@ const CreateNFT = () => {
             <UtilityForm />
             <div>
               <button
-                onClick={() => {
-                  mint().catch(console.log)
+                onClick={async () => {
+                  if (!img) return
+                  const res = await upload(name, description, creator, img)
+                  if (!res || !res.status) return
+                  mint(res.msg.metadataHash).catch(console.log)
                 }}
                 className="rounded-[60px] bg-[#3D00B7] py-[18px] px-10 text-sm font-bold leading-[18px] text-white"
               >
