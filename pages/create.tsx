@@ -1,33 +1,34 @@
 import CalendarButton from '@/components/Calendar/CalendarButton'
 import DropDown from '@/components/DropDown/DropDown'
-import { useWalletAddress } from '@/contexts/Beacon'
-import { useContract } from '@/contexts/Contract'
+import useNFT from '@/hooks/useNFT'
 import MainLayout from '@/layout/MainLayout'
 import { Switch } from '@headlessui/react'
+import Image from 'next/image'
 import React, { ReactElement, useEffect, useState } from 'react'
-import { MichelsonMap } from '@taquito/taquito'
-import { char2Bytes } from '@taquito/utils'
 
 interface MetaDataFormProp {
   date: Date
   setDate: React.Dispatch<React.SetStateAction<Date>>
   unit: {
-    id: number;
-    name: string;
+    id: number
+    name: string
   }
-  setUnit: React.Dispatch<React.SetStateAction<{
-    id: number;
-    name: string;
-  }>>
+  setUnit: React.Dispatch<
+    React.SetStateAction<{
+      id: number
+      name: string
+    }>
+  >
   listingDate: {
-    id: number;
-    name: string;
+    id: number
+    name: string
   }
-  setListingDate: React.Dispatch<React.SetStateAction<{
-    id: number;
-    name: string;
-  }>>
-
+  setListingDate: React.Dispatch<
+    React.SetStateAction<{
+      id: number
+      name: string
+    }>
+  >
 }
 
 const unitList = [
@@ -68,11 +69,57 @@ const expirationList = [
   },
 ]
 
-const ImageUpload = () => {
-  const upload = (file: File | undefined) => {
+const ImageUpload = ({
+  img,
+  setImg,
+}: {
+  img: File | null
+  setImg: React.Dispatch<React.SetStateAction<File | null>>
+}) => {
+  const handleFile = (file: File | undefined) => {
     if (!file) return
-    console.log(file)
+    setImg(file)
+  }
 
+  const loadFile = () => {
+    if (img === null) {
+      return (
+        <>
+          <h6 className="text-sm font-bold tracking-[0.04em] text-black/50">
+            Drag and drop your file here
+          </h6>
+          <button
+            onClick={() => {
+              let input = document.createElement('input')
+              input.type = 'file'
+              input.onchange = (e) => {
+                var file = (e.target as HTMLInputElement)?.files?.[0]
+                handleFile(file)
+              }
+              input.click()
+            }}
+            className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white"
+          >
+            Choose file
+          </button>
+        </>
+      )
+    }
+    const url = URL.createObjectURL(img)
+    return (
+      <div className='relative p-4 flex flex-col items-center w-full gap-10'>
+        <Image className='' src={url} alt='file-preview' width={300} height={300}/>
+        <div className='flex flex-col w-[300px] opacity-70 text-sm'>
+          <h6 className='truncate'>
+            File Name: {img.name}
+          </h6>
+          <h6>
+            File Size: {img.size}
+          </h6>
+        </div>
+      </div>
+
+    )
   }
 
   return (
@@ -89,34 +136,27 @@ const ImageUpload = () => {
         event.preventDefault()
         event.currentTarget.classList.remove('opacity-20')
         if (event.dataTransfer.files) {
-          upload(event.dataTransfer.files[0])
+          handleFile(event.dataTransfer.files[0])
         }
-        upload((event.target as HTMLInputElement)?.files?.[0])
+        handleFile((event.target as HTMLInputElement)?.files?.[0])
       }}
-      className="flex flex-col gap-4 transition-opacity">
+      className="flex flex-col gap-4 transition-opacity"
+    >
       <div className="flex h-[400px] w-[400px] flex-col items-center justify-center gap-5 rounded-2xl bg-[#EEEEF0]">
-        <h6 className="text-sm font-bold tracking-[0.04em] text-black/50">
-          Drag and drop your file here
-        </h6>
-        <button
-          onClick={() => {
-            let input = document.createElement('input')
-            input.type = 'file'
-            input.onchange = e => {
-              var file = (e.target as HTMLInputElement)?.files?.[0]
-              upload(file)
-            }
-            input.click()
-          }}
-          className="flex items-center justify-center rounded-[60px] bg-[#242425] py-[18px] px-10 text-sm font-bold tracking-[0.04em] text-white">
-          Choose file
-        </button>
+        {loadFile()}
       </div>
     </section>
   )
 }
 
-const MetaDataForm = ({ date, setDate, listingDate, setListingDate, setUnit, unit }: MetaDataFormProp) => {
+const MetaDataForm = ({
+  date,
+  setDate,
+  listingDate,
+  setListingDate,
+  setUnit,
+  unit,
+}: MetaDataFormProp) => {
   return (
     <div className="flex w-[457px] flex-col gap-6">
       <input
@@ -159,20 +199,17 @@ const MetaDataForm = ({ date, setDate, listingDate, setListingDate, setUnit, uni
           Date of listing expiration
         </h6>
 
-        {
-          listingDate.id !== 5
-            ? <div
-              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
-            >
-              {listingDate.name}
-            </div>
-            : <input
-              name="dateOfExpiration"
-              placeholder="1"
-              className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
-            />
-
-        }
+        {listingDate.id !== 5 ? (
+          <div className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]">
+            {listingDate.name}
+          </div>
+        ) : (
+          <input
+            name="dateOfExpiration"
+            placeholder="1"
+            className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
+          />
+        )}
 
         <div className="absolute inset-y-0 right-2 top-0">
           <DropDown
@@ -226,8 +263,9 @@ const UtilityForm = () => {
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${
+                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -248,8 +286,9 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
             <Switch
               checked={enabled}
               onChange={setEnabled}
-              className={`${enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
-                } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              className={`${
+                enabled ? 'bg-[#3D00B7]' : 'bg-[#E1E1E1]'
+              } relative mr-[23px] inline-flex h-[31px] w-[51px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <span className="sr-only">Use setting</span>
               <span
@@ -275,27 +314,8 @@ pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-whi
   )
 }
 const CreateNFT = () => {
-  const contract = useContract()
-  const address = useWalletAddress()
-  
-  const mint = async () => {
-    // const metadata = {
-    //   name: 'test',
-    //   amount: 1
-    // }
-    const metaMap = new MichelsonMap({
-      prim: 'map',
-      args: [{prim: 'string'}, {prim: 'bytes'}]
-    })
-
-    metaMap.set('name', char2Bytes('test'))
-    metaMap.set('amount', char2Bytes('1'))
-
-    const ret = await (await contract).methods.mint(address ?? '', metaMap).send()
-    console.log(ret)
-    const hash = await ret.confirmation(3)
-    console.log(hash)
-  }
+  const { mint } = useNFT()
+  const [img, setImg] = useState<File | null>(null)
   const [date, setDate] = useState(new Date())
   const [unit, setUnit] = useState(unitList[0])
   const [listingDate, setListingDate] = useState(expirationList[0])
@@ -306,7 +326,7 @@ const CreateNFT = () => {
     setDate,
     setListingDate,
     setUnit,
-    unit
+    unit,
   }
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-16 pt-24 pb-40">
@@ -316,13 +336,15 @@ const CreateNFT = () => {
       <div className="flex flex-col gap-4">
         <h4 className="text-xl font-bold tracking-[0.04em]">Upload file</h4>
         <div className="flex gap-8">
-          <ImageUpload />
+          <ImageUpload {...{ img, setImg }} />
           <section className="flex flex-col gap-[50px]">
             <MetaDataForm {...metaDataProp} />
             <UtilityForm />
             <div>
               <button
-                onClick={() => {mint().catch(console.log)}}
+                onClick={() => {
+                  mint().catch(console.log)
+                }}
                 className="rounded-[60px] bg-[#3D00B7] py-[18px] px-10 text-sm font-bold leading-[18px] text-white"
               >
                 Create item
