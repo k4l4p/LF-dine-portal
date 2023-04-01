@@ -1,5 +1,6 @@
 import { BeaconProvider } from '@/contexts/Beacon'
 import { ContractProvider } from '@/contexts/Contract'
+import { ModalPopup, ModalProvider } from '@/contexts/Modal'
 import { SettingsProvider } from '@/contexts/Settings'
 import { TaquitoProvider } from '@/contexts/Taquito'
 import '@/styles/globals.css'
@@ -21,15 +22,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <NoSSR>
-        <SettingsProvider>
-          <TaquitoProvider>
-            <BeaconProvider>
-              <ContractProvider>
-            {getLayout(<Component {...pageProps} />)}
-            </ContractProvider>
-            </BeaconProvider>
-          </TaquitoProvider>
-        </SettingsProvider>
+        <ModalProvider>
+          <SettingsProvider>
+            <TaquitoProvider>
+              <BeaconProvider>
+                <ContractProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                </ContractProvider>
+              </BeaconProvider>
+            </TaquitoProvider>
+          </SettingsProvider>
+        </ModalProvider>
       </NoSSR>
     </>
   )

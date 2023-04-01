@@ -2,6 +2,8 @@ import { MichelsonMap } from '@taquito/taquito'
 import { char2Bytes } from '@taquito/utils'
 import { useWalletAddress } from '@/contexts/Beacon'
 import { useContract } from '@/contexts/Contract'
+import { useContext } from 'react'
+import { ModalCtx } from '@/contexts/Modal'
 
 interface IResponseSuccess {
 	status: true
@@ -21,6 +23,7 @@ type TResponse = IResponseSuccess | IResponseError
 const useNFT = () => {
   const contract = useContract()
   const address = useWalletAddress()
+	const modalCtx = useContext(ModalCtx)
 
   const upload = async (
     title: string,
@@ -28,6 +31,8 @@ const useNFT = () => {
     creator: string,
     img: File
   ) => {
+		modalCtx.setMessage('Uploading data')
+		modalCtx.toggleOpen()
 		const payload = new FormData()
 		const data = JSON.stringify({
 			title,
@@ -58,12 +63,16 @@ const useNFT = () => {
 
     metaMap.set('', char2Bytes('ipfs://' + metadataHash))
 
+		modalCtx.setMessage('Minting')
+
     const ret = await (await contract).methods
       .mint(address ?? '', metaMap)
       .send()
     console.log(ret)
     const hash = await ret.confirmation(3)
     console.log(hash)
+		modalCtx.setMessage('Success')
+
   }
 
   return { mint, upload }
