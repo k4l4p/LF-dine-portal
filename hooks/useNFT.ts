@@ -20,7 +20,7 @@ const useNFT = () => {
 		payload.append('creator', creator)
 
 		try {
-			const res = await fetch('http://localhost/upload', {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + 'upload', {
 				method: 'POST',
 				body: payload
 			})
