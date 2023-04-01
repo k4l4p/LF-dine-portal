@@ -191,7 +191,15 @@ const MetaDataForm = ({
         onChange={(e) => {setDescription(e.target.value)}}
         className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
       />
-      <div className="relative w-full">
+      <input
+        name="name"
+        type={'text'}
+        placeholder="Creator Name"
+        value={creator}
+        onChange={(e) => {setCreator(e.target.value)}}
+        className="rounded-2xl border border-[#E1E1E1] bg-white p-4 text-sm font-bold leading-[18px] placeholder:text-[#878787] focus:outline-none"
+      />
+      <div className="pointer-events-none opacity-50 relative w-full">
         <h6 className="absolute top-[7.5px] left-[16px] text-[10px] font-bold leading-[13px]">
           Amount
         </h6>
@@ -201,7 +209,7 @@ const MetaDataForm = ({
           className="w-full rounded-2xl border border-[#E1E1E1] bg-white px-4 pt-[24.5px] pb-[7.5px] text-[14px] font-bold leading-[18px]"
         />
       </div>
-      <div className="relative w-full">
+      <div className="pointer-events-none opacity-50 relative w-full">
         <h6 className="absolute top-[7.5px] left-[16px] bg-white text-[10px] font-bold leading-[13px]">
           Price
         </h6>
@@ -214,7 +222,7 @@ const MetaDataForm = ({
           <DropDown item={unit} setItem={setUnit} list={unitList} />
         </div>
       </div>
-      <div className="relative w-full">
+      <div className="pointer-events-none opacity-50 relative w-full">
         <h6 className="absolute top-[7.5px] left-[16px] text-[10px] font-bold leading-[13px]">
           Date of listing expiration
         </h6>
@@ -248,7 +256,7 @@ const UtilityForm = () => {
   const [enabled, setEnabled] = useState(false)
   const [utilType, setUtilType] = useState<'standard' | 'custom'>('standard')
   return (
-    <div className="flex flex-col gap-[34px]">
+    <div className="flex flex-col gap-[34px] pointer-events-none opacity-50">
       <div className="flex flex-col items-start gap-5">
         <h2 className="text-xl font-bold tracking-[0.04em]">Utility of NFT</h2>
         <div className="flex rounded-[30px] bg-[#EEEEEE] py-1 px-[6px]">
