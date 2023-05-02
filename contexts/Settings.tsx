@@ -14,7 +14,7 @@ export const [
       app_name: 'My DApp',
       endpoint: 'https://ghostnet.ecadinfra.com',
       network: NetworkType.GHOSTNET,
-      contract: 'KT1QTccSn65Syeou2Z9U72wn5bjsRp1BMy66',
+      contract: 'KT1CqdBTV2TFkimnXVLJP26TBR65ULM8dLt2',
     })
     return settings
   },
