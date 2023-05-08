@@ -11,10 +11,10 @@ export const [
 ] = constate(
   () => {
     const [settings] = useState({
-      app_name: 'My DApp',
+      app_name: 'LFDINE',
       endpoint: 'https://ghostnet.ecadinfra.com',
       network: NetworkType.GHOSTNET,
-      contract: 'KT1CqdBTV2TFkimnXVLJP26TBR65ULM8dLt2',
+      contract: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
     })
     return settings
   },
