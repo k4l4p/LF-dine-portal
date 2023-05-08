@@ -25,6 +25,7 @@ const useNFT = () => {
   const contract = useContract()
   const address = useWalletAddress()
   const modalCtx = useContext(ModalCtx)
+  const endpoint = process.env?.NEXT_PUBLIC_API_ENDPOINT ??  'http://localhost:8080'
 
   const upload = async (
     title: string,
@@ -44,7 +45,7 @@ const useNFT = () => {
     payload.append('data', data)
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + '/mint', {
+      const res = await fetch(endpoint + '/mint', {
         method: 'POST',
         body: payload,
       })
