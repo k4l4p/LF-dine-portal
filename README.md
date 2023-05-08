@@ -6,7 +6,7 @@ NEXT_PUBLIC_API_ENDPOINT=backend endpoint
 NEXT_PUBLIC_CONTRACT_ADDRESS=contract address
 
 ```
-2. install packages
+2. install packages and run
 
 ```bash
 yarn 
