@@ -14,7 +14,7 @@ export const [
       app_name: 'LFDINE',
       endpoint: 'https://ghostnet.ecadinfra.com',
       network: NetworkType.GHOSTNET,
-      contract: process.env?.NEXT_PUBLIC_CONTRACT_ADDRESS ?? 'KT1H9kCFuVDCA3kCXgStentobimFVeitbq8A',
+      contract: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? 'KT1H9kCFuVDCA3kCXgStentobimFVeitbq8A',
     })
     return settings
   },
