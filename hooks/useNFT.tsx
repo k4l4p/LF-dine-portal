@@ -33,6 +33,7 @@ const useNFT = () => {
     creator: string,
     img: File
   ) => {
+    modalCtx.setStatus('loading')
     modalCtx.setMessage('Uploading data')
     modalCtx.toggleOpen()
     const payload = new FormData()
@@ -74,7 +75,7 @@ const useNFT = () => {
     metaMap.set('usage', char2Bytes('0'))
 
     modalCtx.setMessage('Minting')
-
+    modalCtx.setStatus('loading')
     try {
       const ret = await (await contract).methods
         .mint(address ?? '', metaMap)
