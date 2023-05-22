@@ -100,40 +100,41 @@ const useNFT = () => {
 					</Link>
 				</div>
 			)
-			const test = await Promise.race([
-				later(30000, new Error("Timeout")),
-				ret.confirmation(2),
-			])
+			// const test = await Promise.race([
+			// 	later(30000, new Error("Timeout")),
+			// 	ret.confirmation(2),
+			// ])
 
-			if (test instanceof Error) {
-				modalCtx.setMessage(
-					<div className="flex flex-col gap-3">
-						<h3>Cannot confirmed</h3>
-						<Link
-							className="text-sm opacity-70 underline"
-							target="_blank"
-							rel="noopener"
-							href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
-						>
-							Your NFT Collection
-						</Link>
-					</div>
-				)
-			} else {
-				modalCtx.setMessage(
-					<div className="flex flex-col gap-3">
-						<h3>Confirmed</h3>
-						<Link
-							className="text-sm opacity-70 underline"
-							target="_blank"
-							rel="noopener"
-							href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
-						>
-							Your NFT Collection
-						</Link>
-					</div>
-				)
-			}
+			// if (test instanceof Error) {
+			// modalCtx.setStatus("error")
+			// 	modalCtx.setMessage(
+			// 		<div className="flex flex-col gap-3">
+			// 			<h3>Cannot confirmed</h3>
+			// 			<Link
+			// 				className="text-sm opacity-70 underline"
+			// 				target="_blank"
+			// 				rel="noopener"
+			// 				href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
+			// 			>
+			// 				Your NFT Collection
+			// 			</Link>
+			// 		</div>
+			// 	)
+			// } else {
+			// 	modalCtx.setMessage(
+			// 		<div className="flex flex-col gap-3">
+			// 			<h3>Confirmed</h3>
+			// 			<Link
+			// 				className="text-sm opacity-70 underline"
+			// 				target="_blank"
+			// 				rel="noopener"
+			// 				href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
+			// 			>
+			// 				Your NFT Collection
+			// 			</Link>
+			// 		</div>
+			// 	)
+			// }
 		} catch (err) {
 			const msg = err instanceof Error ? err.message : "Something went wrong"
 			modalCtx.setStatus("error")
