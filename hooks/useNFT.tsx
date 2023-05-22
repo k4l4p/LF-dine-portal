@@ -80,7 +80,8 @@ const useNFT = () => {
       const ret = await (await contract).methods
         .mint(address ?? '', metaMap)
         .send()
-      const hash = await ret.confirmation(3)
+      modalCtx.setMessage('Confirming')
+      const hash = await ret.confirmation(1)
       modalCtx.setStatus('success')
       modalCtx.setMessage(
         <div className="flex flex-col gap-3">
