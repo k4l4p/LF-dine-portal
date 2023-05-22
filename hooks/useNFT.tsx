@@ -1,5 +1,5 @@
 import { MichelsonMap } from '@taquito/taquito'
-import { char2Bytes } from '@taquito/utils'
+import { char2Bytes, hex2Bytes } from '@taquito/utils'
 import { useWalletAddress } from '@/contexts/Beacon'
 import { useContract } from '@/contexts/Contract'
 import { useContext } from 'react'
@@ -72,7 +72,7 @@ const useNFT = () => {
     })
 
     metaMap.set('', char2Bytes('ipfs://' + metadataHash))
-    metaMap.set('usage', char2Bytes('0'))
+    metaMap.set('usage', hex2Bytes('050000'))
 
     modalCtx.setMessage('Minting')
     modalCtx.setStatus('loading')
