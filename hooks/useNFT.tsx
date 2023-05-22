@@ -80,8 +80,20 @@ const useNFT = () => {
       const ret = await (await contract).methods
         .mint(address ?? '', metaMap)
         .send()
-      // modalCtx.setMessage('Confirming')
-      // const hash = await ret.confirmation(1)
+      modalCtx.setMessage(
+        <div className="flex flex-col gap-3">
+          <h3>Confirming</h3>
+          <Link
+            className="text-sm opacity-70 underline"
+            target="_blank"
+            rel="noopener"
+            href={`https://ghostnet.tzkt.io/${ret.opHash}`}
+          >
+            Monitor the transaction here!
+          </Link>
+        </div>
+      )
+      const hash = await ret.confirmation(2)
       modalCtx.setStatus('success')
       modalCtx.setMessage(
         <div className="flex flex-col gap-3">
