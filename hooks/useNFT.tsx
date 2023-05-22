@@ -89,6 +89,7 @@ const useNFT = () => {
 			modalCtx.setMessage(
 				<div className="flex flex-col gap-3">
 					<h3>Minted!</h3>
+					<h3>Confirming now...</h3>
 					<Link
 						className="text-sm opacity-70 underline"
 						target="_blank"
