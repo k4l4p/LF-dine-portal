@@ -72,7 +72,7 @@ const useNFT = () => {
     })
 
     metaMap.set('', char2Bytes('ipfs://' + metadataHash))
-    metaMap.set('usage', hex2Bytes('050000'))
+    metaMap.set('usage', '050000')
 
     modalCtx.setMessage('Minting')
     modalCtx.setStatus('loading')
