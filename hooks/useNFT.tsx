@@ -93,7 +93,9 @@ const useNFT = () => {
             className="text-sm opacity-70 underline"
             target="_blank"
             rel="noopener"
-            href={`https://ghostnet.tzkt.io/${ret.opHash}`}
+            href={`${process.env.NEXT_PUBLIC_ENV === "DEV"
+            ? "https://ghostnet.tzkt.io/"
+            : "https://tzkt.io/"}${ret.opHash}`}
           >
             Monitor the transaction here!
           </Link>
@@ -127,7 +129,9 @@ const useNFT = () => {
               className="text-sm opacity-70 underline"
               target="_blank"
               rel="noopener"
-              href={`https://ghostnet.tzkt.io/${ret.opHash}`}
+              href={`${process.env.NEXT_PUBLIC_ENV === "DEV"
+              ? "https://ghostnet.tzkt.io/"
+              : "https://tzkt.io/"}${ret.opHash}`}
             >
               Monitor the transaction here!
             </Link>
