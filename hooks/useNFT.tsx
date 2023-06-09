@@ -21,11 +21,16 @@ interface IResponseError {
 
 type TResponse = IResponseSuccess | IResponseError
 
+function later(delay: number, value: Error) {
+  return new Promise((resolve) => setTimeout(resolve, delay, value))
+}
+
 const useNFT = () => {
   const contract = useContract()
   const address = useWalletAddress()
   const modalCtx = useContext(ModalCtx)
-  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT ??  'http://localhost:8080'
+  const endpoint =
+    process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8080'
 
   const upload = async (
     title: string,
@@ -33,6 +38,7 @@ const useNFT = () => {
     creator: string,
     img: File
   ) => {
+    modalCtx.setStatus('loading')
     modalCtx.setMessage('Uploading data')
     modalCtx.toggleOpen()
     const payload = new FormData()
@@ -71,29 +77,67 @@ const useNFT = () => {
     })
 
     metaMap.set('', char2Bytes('ipfs://' + metadataHash))
-    metaMap.set('usage', char2Bytes('0'))
+    metaMap.set('usage', '050000')
 
     modalCtx.setMessage('Minting')
-
+    modalCtx.setStatus('loading')
     try {
       const ret = await (await contract).methods
         .mint(address ?? '', metaMap)
         .send()
-      const hash = await ret.confirmation(3)
       modalCtx.setStatus('success')
       modalCtx.setMessage(
         <div className="flex flex-col gap-3">
-          <h3>Success</h3>
+          <h3>Minted!</h3>
           <Link
             className="text-sm opacity-70 underline"
             target="_blank"
             rel="noopener"
-            href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
+            href={`${process.env.NEXT_PUBLIC_ENV === "DEV"
+            ? "https://ghostnet.tzkt.io/"
+            : "https://tzkt.io/"}${ret.opHash}`}
           >
-            Your NFT Collection
+            Monitor the transaction here!
           </Link>
         </div>
       )
+      const confirmRace = await Promise.race([
+        later(30000, new Error('Timeout')),
+        ret.confirmation(2),
+      ])
+
+      if (confirmRace! instanceof Error) {
+        // modalCtx.setStatus('error')
+        // modalCtx.setMessage(
+        //   <div className="flex flex-col gap-3">
+        //     <h3>Cannot confirmed</h3>
+        //     <Link
+        //       className="text-sm opacity-70 underline"
+        //       target="_blank"
+        //       rel="noopener"
+        //       href={`https://ghostnet.tzkt.io/${address}/balances/nft`}
+        //     >
+        //       Your NFT Collection
+        //     </Link>
+        //   </div>
+        // )
+      } else {
+        modalCtx.setMessage(
+          <div className="flex flex-col gap-3">
+            <h3>Confirmed</h3>
+            <Link
+              className="text-sm opacity-70 underline"
+              target="_blank"
+              rel="noopener"
+              href={`${process.env.NEXT_PUBLIC_ENV === "DEV"
+              ? "https://ghostnet.tzkt.io/"
+              : "https://tzkt.io/"}${ret.opHash}`}
+            >
+              Monitor the transaction here!
+            </Link>
+          </div>
+        )
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Something went wrong'
       modalCtx.setStatus('error')

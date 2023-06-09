@@ -16,7 +16,6 @@ const corsOptions = {
     // localhost
     "http://localhost:3000", 
     // ...
-    "https://lf-dine-portal.vercel.app",
     ],
   optionsSuccessStatus: 200
 };
